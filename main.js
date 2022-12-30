@@ -1,49 +1,99 @@
-//module for the game board
+//two player object who getSign method returns their sign.
+const player = (sign) => {
 
+    const getSign = () => {
+        return sign;
+    }
+
+    return {getSign};
+
+};
+
+//module for the game board
 const gameBoard = (
     ()=> {
 
-        let gameArr = ["x", "o", "x",
-                        "x", "o", "x",
-                        "x", "o", "x"];
+//arr to store the player markings
+        let gameArr = ["", "", "",
+                        "", "", "",
+                        "", "", ""];
+        
+//create two players for each sign
+        let playerX = player("x");
+        let playerO = player("o");
 
+//selecting all 9 cells in the game board
+        let cells = document.querySelectorAll(".cell");
 
-        const drawGameBoard = () => {
+//variable to check if game is over or not after each update
+        let isGameOver = false;
 
-            let draw = document.querySelectorAll(".cell")
-            
-            draw.forEach((cell, id, className) => {
+//variable to track the number of marking/update in the game board
+        let updateCount = 1;
+
+//add event listeners for each cell
+        cells.forEach((cell, id) => {
+            cell.addEventListener(("click"), () => {
                 
+//when a cell is clicked gets id using getAtrribute
                 id = cell.getAttribute("id");
-                className = cell.getAttribute("class");
                 id=id.charAt(id.length-1);
-                cell.innerHTML = `${gameArr[id-1]}`;
+
+//use id as array index for the gameArr, and update signs alternatively beginning with X sign
+                if (updateCount%2 == 1) {
+                    updateGameBoard(id, playerX.getSign());
+                }      
+                else {
+                    updateGameBoard(id, playerO.getSign());
+                }
 
             });
+        });
 
+//function to draw the game board
+        const drawGameBoard = () => {
+            cells.forEach((cell, id) => {
+                id = cell.getAttribute("id");
+                id=id.charAt(id.length-1);
+                cell.innerHTML = `${gameArr[id-1]}`;
+            });
         };
 
-        const updateGameBoard = () => {
+//function to update game for each markings
+        const updateGameBoard = (id, mark) => {
 
+            //if a cell is empty and if game is not over, only then update the cell.
+            if ((gameArr[id-1] == "") && (!isGameOver)) {
+                gameArr[id-1] = mark;
+            
+            //draw the game board again to update the changes in UI
+                drawGameBoard();
+                updateCount++;
+            
+            //after each update in the gameArr check if someone has won the game or not
+            gameStatus();
+            }
         };
 
-        const isGameOver = () => {
+        const gameStatus = () => {
 
+            if( (gameArr[9] == "X" ) || (gameArr[9] == "O" ) )
+            {
+                    isGameOver = true; 
+            }
+            else {
+                isGameOver = false;
+            }
         };
 
         const reset = () => {
 
         };
-
-        return {updateGameBoard, drawGameBoard, reset, isGameOver};
+        
+        return {updateGameBoard, drawGameBoard, reset, gameStatus, playerX,playerO};
 
     }
 
 ) ();
 
 gameBoard.drawGameBoard();
-const player = () => {
-
-
-
-};
