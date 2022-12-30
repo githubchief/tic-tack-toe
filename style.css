@@ -79,5 +79,6 @@ h1 {
     height: 100px;
     background-color: aliceblue;
     border: solid 1px rgb(227, 215, 146);
-
+    font-size: 5rem;
+    font-weight: 100;
 }
