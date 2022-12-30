@@ -1,4 +1,4 @@
-//two player object who getSign method returns their sign.
+//two player object whose getSign method returns their sign.
 const player = (sign) => {
 
     const getSign = () => {
@@ -75,6 +75,7 @@ const gameBoard = (
             }
         };
 
+//function to check if game is over or not
         const gameStatus = () => {
 
             if( (gameArr[9] == "X" ) || (gameArr[9] == "O" ) )
@@ -86,7 +87,22 @@ const gameBoard = (
             }
         };
 
+//event listener to the reset button
+        let resetButton = document.querySelector(".resetButton");
+        
+        resetButton.addEventListener("click", () => {
+            reset();
+        });
+    
+//whenever reset is called move all the variables to its initial state
         const reset = () => {
+
+            updateCount = 1;
+            isGameOver = false;
+            gameArr = ["", "", "",
+                        "", "", "",
+                        "", "", ""];
+            drawGameBoard();
 
         };
         
