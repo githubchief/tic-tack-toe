@@ -37,6 +37,10 @@ const gameBoard = (
         //selecting all 9 cells in the game board
         let cells = document.querySelectorAll(".cell");
 
+        //selecting output element
+        let gameStatus = document.getElementById("gameStatus");
+        console.log(gameStatus);
+
         //variable to check if game is over or not after each update
         let isGameOver = false;
 
@@ -73,6 +77,8 @@ const gameBoard = (
 
         //function to update game for each markings
         const updateGameBoard = (id, mark) => {
+            
+
 
             //if a cell is empty and if game is not over, only then update the cell.
             if ((gameArr[id-1] == "") && (!isGameOver)) {
@@ -84,9 +90,14 @@ const gameBoard = (
                 updateCount++;
             
                 //after each update in the gameArr check if someone has won the game or not
-                checkForWin("x");
-                checkForWin("o");
+                checkForWin(playerX.getSign());
+                checkForWin(playerO.getSign());
             }
+
+            if (updateCount > 9) {
+                gameStatus.innerHTML = `It's a draw, Reset and try again`;
+            }
+
         };
 
         //function to check if game is over or not
@@ -99,13 +110,11 @@ const gameBoard = (
               const hasWon = combination.every(index => gameArr[index] === player);
               // If the player has won, return true
               if (hasWon) {
-                console.log(`game won by ${player}`);
+                gameStatus.innerHTML = `Congratulations! Game won by Player ${player}`;
                 isGameOver = true;
                 return;
               }
             }
-            // If none of the combinations are satisfied, return false
-            return;
           }
 
         //event listener to the reset button
@@ -123,6 +132,7 @@ const gameBoard = (
             gameArr = ["", "", "",
                         "", "", "",
                         "", "", ""];
+            gameStatus.innerHTML = '';
             drawGameBoard();
 
         };

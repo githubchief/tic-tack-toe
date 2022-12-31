@@ -59,6 +59,9 @@ h1 {
     padding: 3rem 3rem;
 }
 
+#gameStatus {
+    padding: 1rem;
+}
 .container {
     padding: 3rem;
 }
